@@ -1,0 +1,35 @@
+html,body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.loginPage {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-image: url(../img/cat.jpg);
+  background-size:contain;
+  background-repeat: no-repeat;
+}
+
+.form-login {
+  width: 360px;
+  height: 300px;
+  padding: 15px;
+  position:relative;
+  top:15%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+}
+
+input[type="text"], input[type="password"] {
+  padding-left: 30px;
+}
+
+.fa{
+  top: 26px;
+  left: 6px;
+  position: relative;
+  color: #ccc;}

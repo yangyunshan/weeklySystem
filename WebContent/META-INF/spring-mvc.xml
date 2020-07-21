@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+  
+	<mvc:annotation-driven>
+	
+	</mvc:annotation-driven>
+  	
+	<context:component-scan base-package="com.wr.controller">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<!-- 视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!--这里是对静态资源的映射，mapping就是表示你的请求路径，在你这个例子里就是相对路径为/statics的请求，
+	location就是表示mapping请求的最终位置，即mapping的请求最后指向的位置-->  
+	  
+	<mvc:interceptors>
+
+	  <!-- 配置登陆拦截器 -->
+	  <mvc:interceptor>
+	    <!--拦截登陆页-->
+	    <mvc:mapping path="/loginpage"/>
+	    <!--不拦截登录验证-->
+	    <mvc:exclude-mapping path="/loginpage/validate.do"/>
+	    <bean class="com.wr.Interceptor.LoginInterceptor"></bean>
+	  </mvc:interceptor>
+	  
+	  <mvc:interceptor>
+	    <!--拦截后台页面的请求-->
+	    <mvc:mapping path="/function/*"/> 
+	    <mvc:mapping path="/page/personalinfo"/>
+	    <mvc:mapping path="/page/changepw"/>
+	    <mvc:mapping path="/page/mainpage"/>
+	    <mvc:exclude-mapping path="/function/getmeetingreportpagecutlist"/>
+	    <bean class="com.wr.Interceptor.CommonInterceptor"></bean>
+	  </mvc:interceptor>
+	  
+	  
+	  <mvc:interceptor>
+	    <mvc:mapping path="/page/reportreview"/>
+	    <!--组长-->
+	    <bean class="com.wr.Interceptor.GLInterceptor"></bean>
+	  </mvc:interceptor>
+	  
+	  <mvc:interceptor>
+	    <mvc:mapping path="/page/writereport"/>
+	    <mvc:mapping path="/page/writesign"/>
+	    <!--组员和组长-->
+	    <bean class="com.wr.Interceptor.GMAndGLInterceptor"></bean>
+	  </mvc:interceptor>
+	  
+	  
+	  <mvc:interceptor>
+	    <mvc:mapping path="/page/reportcollect"/>
+	    <mvc:mapping path="/page/signcollect"/>
+	    <mvc:mapping path="/page/reportsearch"/>
+	    <mvc:mapping path="/page/summaryexport"/>
+	    <mvc:mapping path="/page/notification"/>
+	    <!--导师-->
+	    <bean class="com.wr.Interceptor.TInterceptor"></bean>
+	  </mvc:interceptor>
+	  
+	  <mvc:interceptor>
+	    <mvc:mapping path="/page/signreview"/>
+	    <mvc:mapping path="/page/meetingrecord"/>
+	    <!--秘书-->
+	    <bean class="com.wr.Interceptor.SInterceptor"></bean>
+	  </mvc:interceptor>
+	  
+	  <mvc:interceptor>
+	    <mvc:mapping path="/page/usermanage"/>
+	    <mvc:mapping path="/page/datamanage"/>
+	    <mvc:mapping path="/page/systemcontrol"/>
+	    <!--管理员-->
+	    <bean class="com.wr.Interceptor.AInterceptor"></bean>
+	  </mvc:interceptor>
+	  
+	  <mvc:interceptor>
+	    <mvc:mapping path="/function/reportsubmit"/>
+	    <mvc:mapping path="/function/submitsign"/>
+	    <mvc:mapping path="/function/saveimage"/>
+	    <!--管理员-->
+	    <bean class="com.wr.Interceptor.GMAndGLInterceptor"></bean>
+	  </mvc:interceptor>
+	  
+	  
+	</mvc:interceptors>
+	
+</beans>
